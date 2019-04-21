@@ -60,6 +60,12 @@ class NodeMCU(Thread):
         Función heredada de la clase Thread, crea un hilo que escribe los mensajes pendientes en el socket cada intervalo de tiempo.
         Si hay más de un mensaje pendiente en la lista, los concatena para crear uno solo mensaje que puede manejar el servidor.
         Todo mensaje enviado recibe una respuesta.
+        Entradas
+            self : Guarda la referencia del objeto que se esta utilizando.
+            self.loop : Variable que permite detener el hilo.
+        Salidas
+            Envia los mensajes pendientes al servidor.
+       
         """
         self.loop = True
         while(self.loop):
@@ -101,14 +107,15 @@ class NodeMCU(Thread):
                     #Se crea el socket y se conecta exitosamente pero no tiene respuesta.
                     #Errores de timeout
                     except socket.timeout as error:
-                        print("Sin respuesta del servidor\nSe esperÃ³ por", self.timeoutLimit,"s")
+                        print("Sin respuesta del servidor\nSe espera por", self.timeoutLimit,"s")
                         self.error=True
                         self.error_list.append(error)
                         new_log[1] = str(error)
                     #Error de tipo distinto a timeout  
                     except Exception as a:
+                        print("Error al enviar al servidor\n\
+                        Se espera por", self.timeoutLimit,"s")
                         print(str(a))
-                        print("No se pudo conectar con el servirdor\nVerifique que ambos dispositivos están conectados y en la misma red")
                         self.error=True
                         self.error_list.append(a)
                         new_log[1] = str(a)
@@ -118,6 +125,8 @@ class NodeMCU(Thread):
                         
                 #No se pudo conectar con el servidor          
                 except Exception as e:
+                    print("No se pudo conectar con el servirdor\n\
+                    Verifique que ambos dispositivos están conectados y en la misma red")
                     print(str(e))
                     self.error=True
                     self.error_list.append(e)
@@ -141,6 +150,14 @@ class NodeMCU(Thread):
         """
         Agrega el mensaje de entrada a la lista de mensajes pendientes.
         Permite ser llamada desde cualquier parte del código
+        Entradas
+            self: Guarda la referencia al objeto que se esta utilizando.
+            message: El mensaje que se desea enviar al servidor
+        Salidas
+            mnsID: Retorna un ID del mensaje enviado para que se pueda leer despues.
+        Restricciones
+            * El mensaje debe terminar con ; para que sea valido.
+            * Si se desea utilizar el ID del mensaje, no debe ir acompañado de otro comando.
         """
         mnsID = ""
         if(self.loop):
@@ -156,8 +173,12 @@ class NodeMCU(Thread):
     def read(self):
         """
         Retorna el último mensaje recibido del cliente y lo elimina de la lista de recibidos.
-        Entradas: n/a
-        Salida: Ultimo mensaje recibido, no leÃ­do, retorna vacÃ­o si no hay mensajes en la lista de mensajes recibidos.
+        Entradas 
+            self: Guarda la referencia al objeto que se esta utilizando.
+        Salida
+            response: Ultimo mensaje respondido desde el servidor y que no fue leido previamente.
+            retorna '' si no hay mensajes en la lista de mensajes recibidos por leer.
+        Restricciones
         """
         response = ""
         if(len(self.received_mns)>0):
@@ -170,6 +191,14 @@ class NodeMCU(Thread):
         """
         Retorna el elemento del registro donde se incluye el mensaje y la respuesta del cliente.
         No elimina el mensaje de la lista de recibidos.
+        Entradas
+            self:   Guarda la referencia al objeto que se esta utilizando.
+            id:     Identificador del mensaje. Se genera en la funcion send,
+                    Esta compuesto por 2 indices, separados por ':' ejm = a:b
+                        a = indice del log.
+                        b = indice de pendientes antes de ser enviado.
+        Salidas
+            response:   
         """
         response = ""
         if(isinstance(id,str) and ":" in id):
@@ -192,6 +221,10 @@ class NodeMCU(Thread):
         """
         Retorna una copia de la lista con todos los mensajes no leídos
         Vacía la lista de mensajes 
+        Entradas
+            self: Guarda la referencia al objeto que se esta utilizando.
+        Salidas
+            temp: Copia de la lista de mensajes recibidos.
         """
         temp = self.received_mns.copy()
         self.received_mns = []
@@ -202,6 +235,10 @@ class NodeMCU(Thread):
     def readLog(self):
         """
         Retorna una copia del log de mensajes, con todos los mensajes enviados y recibidos hasta el momento.
+        Entradas
+            self: Guarda la referencia al objeto que se esta utilizando.
+        Salidas
+            temp_log: Copia del log de mensajes. 
         """
         temp_log = self.log.copy()
         return temp_log
@@ -211,6 +248,10 @@ class NodeMCU(Thread):
     def readError(self):
         """
         Retorna el último error generado desde python
+        Entradas
+            self: Guarda la referencia al objeto que se esta utilizando.
+        Salidas
+            error: Retorna el ultimo error que ocurrio
         """
         error = ""
         if(len(self.error_list)>0):

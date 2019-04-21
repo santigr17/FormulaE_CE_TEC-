@@ -68,6 +68,7 @@ def get_log():
     Hilo que actualiza los Text cada vez que se agrega un nuevo mensaje al log de myCar
     """
     indice = 0
+    # Variable del carro que mantiene el hilo de escribir.
     while(myCar.loop):
         while(indice < len(myCar.log)):
             mnsSend = "[{0}] cmd: {1}\n".format(indice,myCar.log[indice][0])

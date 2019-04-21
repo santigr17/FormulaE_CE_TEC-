@@ -84,6 +84,11 @@ const long interval = 100;
 
 
 /**
+ * Variables
+ */
+// #AGREGAR VARIABLES NECESARIAS 
+
+/**
  * Función de configuración.
  * Se ejecuta la primera vez que el módulo se enciende.
  * Si no puede conectarse a la red especificada entra en un ciclo infinito 
@@ -122,7 +127,12 @@ void setup() {
     Serial.print("\nCould not connect to: "); Serial.println(ssid);
     while (1) delay(500);
   } else {
-    Serial.println("\nIt´s connected");
+    Serial.print("\Connection Succeeded to: "); Serial.println(ssid);
+    Serial.println(.....\nWaiting for a client at");
+    Serial.print("IP: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("Port: ");
+    Serial.print(PORT);
   }
   server.begin();
   server.setNoDelay(true);
@@ -218,8 +228,14 @@ void procesar(String input, String * output){
     }
     /**
      * ## AGREGAR COMPARACIONES PARA COMANDOS SIN VALOR
-     * EJEM: comando == CIRCLE; 
+     * EJEM: else if (comando == CIRCLE) {
+     *  
+     * } 
      */
+    else{
+      Serial.print("Comando no reconocido. Solo presenta llave");
+      *output = "Undefined key value: " + comando+";";
+    }
     comienzo = delComa+1;
     delComa = input.indexOf(';',comienzo);
   }
@@ -284,6 +300,7 @@ String implementar(String llave, String valor){
        */
       default:
         Serial.println("Ninguna de las anteriores");
+        
         break;
     }
     //data VARIABLE QUE DEFINE CUALES LUCES SE ENCIENDEN Y CUALES SE APAGAN
