@@ -46,7 +46,7 @@ const long interval = 100;
  * Pin donde está conectado el sensor de luz
  * Señal digital, lee 1 si hay luz y 0 si no hay.
  */
-#define ldr D8
+#define ldr D7
 /**
  * Variables para manejar las luces con el registro de corrimiento.
  * Utilizan una función propia de Arduino llamada shiftOut.
@@ -58,7 +58,7 @@ const long interval = 100;
  * data = B11111111 -> todas apagadas
  * data = B00001111 -> depende de LSBFIRST o MSBFIRST la mitad encendida y la otra mitad apagada
  */
-#define ab  D7 
+#define ab  D8 
 #define clk D6
 /*
  * Variables para controlar los motores.
@@ -127,8 +127,8 @@ void setup() {
     Serial.print("\nCould not connect to: "); Serial.println(ssid);
     while (1) delay(500);
   } else {
-    Serial.print("\Connection Succeeded to: "); Serial.println(ssid);
-    Serial.println(.....\nWaiting for a client at");
+    Serial.print("\nConnection Succeeded to: "); Serial.println(ssid);
+    Serial.println(".....\nWaiting for a client at");
     Serial.print("IP: ");
     Serial.println(WiFi.localIP());
     Serial.print("Port: ");
@@ -136,7 +136,6 @@ void setup() {
   }
   server.begin();
   server.setNoDelay(true);
-
 
 }
 
