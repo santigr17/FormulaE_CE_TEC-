@@ -58,8 +58,8 @@ const long interval = 100;
  * data = B11111111 -> todas apagadas
  * data = B00001111 -> depende de LSBFIRST o MSBFIRST la mitad encendida y la otra mitad apagada
  */
-#define ab  D8 
-#define clk D6
+#define ab  D6 
+#define clk D8
 /*
  * Variables para controlar los motores.
  * EnA y EnB son los que habilitan las salidas del driver.
@@ -74,12 +74,12 @@ const long interval = 100;
  * In3 = 0 ∧ In4 = 1 -> Gira hacia la izquierda
  * In3 = 1 ∧ In4 = 0 -> Gira hacia la derecha
  */
-#define EnA D5 // 
-#define In1 D4 // D4 en HIGH : retroceder
-#define In2 D3 // D3 en HIGH : avanzar
-#define In3 D2 // 
+#define EnA D4 // 
+#define In1 D3 // D4 en HIGH : retroceder
+#define In2 D2 // D3 en HIGH : avanzar
+#define In3 D1 // 
 #define EnB D1 // 
-#define In4 D0 // 0 para ir hacia adelante
+#define In4 D5 // 0 para ir hacia adelante
 
 
 
