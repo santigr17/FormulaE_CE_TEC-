@@ -127,8 +127,8 @@ void setup() {
     Serial.print("\nCould not connect to: "); Serial.println(ssid);
     while (1) delay(500);
   } else {
-    Serial.print("\Connection Succeeded to: "); Serial.println(ssid);
-    Serial.println(.....\nWaiting for a client at");
+    Serial.print("\nConnection Succeeded to: "); Serial.println(ssid);
+    Serial.println(".....\nWaiting for a client at");
     Serial.print("IP: ");
     Serial.println(WiFi.localIP());
     Serial.print("Port: ");
@@ -136,6 +136,8 @@ void setup() {
   }
   server.begin();
   server.setNoDelay(true);
+
+
 
 
 }
