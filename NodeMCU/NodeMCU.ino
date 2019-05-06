@@ -78,7 +78,7 @@ const long interval = 100;
 #define In1 D3 // D4 en HIGH : retroceder
 #define In2 D2 // D3 en HIGH : avanzar
 #define In3 D1 // 
-#define EnB D1 // 
+#define EnB D0 // 
 #define In4 D5 // 0 para ir hacia adelante
 
 
